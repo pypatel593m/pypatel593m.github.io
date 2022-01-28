@@ -2,8 +2,25 @@
 // AKA Anonymous Self-Executing Function
 (function()
 {
+    function DisplayProductsPage()
+    {
+        console.log("Products Page");
+    }
+    function DisplayServicesPage()
+    {
+        console.log("Services Page");
+    }
+    function DisplayAboutUsPage()
+    {
+        console.log("About Us Page");
+    }
+
     function DisplayHomePage()
     {
+
+        
+
+        console.log("Home Page.")
         let AboutUsButton = document.getElementById("AboutUsButton");
 
         AboutUsButton.addEventListener("click", function()
@@ -41,7 +58,7 @@
 
 
         // Deletion example
-        //document.getElementById("ArticleParagraph").remove();
+        // document.getElementById("ArticleParagraph").remove();
         
         // Insert before example
 
@@ -49,11 +66,76 @@
         // NewH1.setAttribute("class", "display-1");
         // NewH1.textContent = "Hello, World!";
         // MainContent.before(NewH1);
-        
-        
-
     }
 
+    
+    function DisplayContactUsPage()
+    {
+        console.log("Contact Us Page");
+
+        let sendButton = document.getElementById("sendButton");
+        let subscribeCheckBox = document.getElementById("subscribeCheckBox");
+
+        //localStorage.setItem("1", "Parth");
+        //console.log(localStorage.getItem("1"));
+        //localStorage.removeItem("1");
+        //console.log(localStorage.length);
+
+        sendButton.addEventListener("click", function()
+        {
+            
+            //event.preventDefault(); // for debugging
+
+            if(subscribeCheckBox.checked)
+            {
+                let contact = new Contact(fullName.value, contactNumber.value, emailAddress.value);
+                if(contact.serialize())
+                {
+                    let key = contact.FullName.substring(0, 1) + Date.now();
+
+                    localStorage.setItem(key, contact.serialize());
+                }
+
+            }
+        })
+    }
+
+    function DisplayContactListPage()
+    {
+        console.log("Contact-List Page");
+        if(localStorage.length > 0) // check if local storage has something in it
+        {
+            let contactList = document.getElementById("contactList");
+
+            let data = "";
+
+            let keys = Object.keys(localStorage);
+
+            let index = 1;
+
+            // for every key in keys collection
+            for(const key of keys)
+            {
+                let contactData = localStorage.getItem(key); // retrieves contact data from local storage
+
+                let contact = new Contact(); // creat an empty contact object 
+                contact.deserialize(contactData);
+
+                data += `<tr>
+                <th scope="row" class="text-center">${index}</th>
+                <td>${contact.FullName}</td>
+                <td>${contact.ContactNumber}</td>
+                <td>${contact.EmailAddress}</td>
+                <td></td>
+                <td></td>
+                </tr>`
+
+                index ++;
+            }
+
+            contactList.innerHTML = data;
+        }
+    }
 
     // named function
     function Start()
@@ -65,6 +147,21 @@
             case "Home":
                 DisplayHomePage();
             break;
+            case "Our Products":
+                DisplayProductsPage();
+                break;
+            case "Our Services":
+                DisplayServicesPage();
+                break;
+            case "About Us":
+                DisplayAboutUsPage();
+                break;
+            case "Contact Us":
+                DisplayContactUsPage();
+                break;
+            case "Contact-List":
+                DisplayContactListPage();
+                break;
         }
 
         let AboutUsButton = document.getElementById("AboutUsButton");
