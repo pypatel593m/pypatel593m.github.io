@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="./Content/app.css">
 </head>
-<body>
+<body id="body">
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
@@ -24,7 +24,7 @@
                     <a class="nav-link" href="index.html"> <i class="fas fa-spider"></i>Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link active"  aria-current="page" href="products.html"> <i class="fas fa-project-diagram"></i> Products</a>
+                    <a class="nav-link active"  aria-current="page" id="changeTitle" href="products.html"> <i class="fas fa-project-diagram"></i> Products</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="services.html"> <i class="fas fa-map-signs"></i> Services</a>
@@ -41,7 +41,18 @@
           </nav>
     </header>
     <div class="container">
-        <h1>Our Products</h1>
+        <h1 id="pageTitle">Our Products</h1>
+        <tb>
+          <tr>
+            <th></th>
+              <td><img src= "./image/FirstProject.jpg" width="350" height="350"style="float: center;"></td>
+              <td>&nbsp&nbsp&nbsp&nbsp</td>
+              <td ><img style="margin-left: 63px;" src= "./image/SecondProject.jpg" width="350" height="300"style="float: center;"></td>
+              <td>&nbsp&nbsp&nbsp&nbsp</td>
+              <td><img style="margin-left: 80px;" src= "./image/ThirdProject.jpg" width="400" height="300"style="float: center;"></td>
+          </tr>
+        </tb>
+        <p id="Main"></p>
     </div>
     
     

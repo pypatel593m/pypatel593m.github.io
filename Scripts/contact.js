@@ -1,5 +1,8 @@
+document.body.style.backgroundImage = "url('../image/HomeBackground.jpg')";
+document.body.style.color = "White";
 class Contact 
 {
+    
     // public properties (accessors / mutators)
     get FullName()
     {
