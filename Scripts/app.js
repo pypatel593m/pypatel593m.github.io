@@ -1,132 +1,62 @@
+// IIFE -- Immediately Invoke Function Expression
+// AKA Anonymous Self-Executing Function
 (function()
 {
-
-    function DisplayHomePage()
+    
+    // Adding the human resource link to navbar
+    function LinkHumanResource()
     {
-        console.log("Home page");
-        let AboutUsButton = document.getElementById("AboutUsButton");
-        
-        AboutUsButton.addEventListener("click", function()
-        {
-            location.href = "about.html";
-        });
 
-        document.body.style.backgroundImage = "url('../image/HomeBackground.jpg')";
-        document.body.style.color = "White";
-        let ChangeTitle = document.getElementById("changeTitle");
-        ChangeTitle.innerHTML = `<i class="fas fa-project-diagram"></i>Projects`;
+        let NewLink = `<a class="nav-link" href="about.html"> <i class="fas fa-male"></i> Human Resource</a>`;
+        let DocumentBody = document.getElementsByTagName("li")[4];
+        let abotUsPara = document.createElement("abotUsPara");
+        abotUsPara.setAttribute("class", "center");
+        abotUsPara.innerHTML = NewLink;
+        DocumentBody.appendChild(abotUsPara);
 
+    }
+
+
+    function ChangeProductsToProjects()
+    {
+        let NewLink = `<a class="nav-link" href="products.html"> <i class="fas fa-project-diagram"></i>Projects</a>`;
+        let DocumentBody = document.getElementsByTagName("li")[1];
+        let abotUsPara = document.createElement("abotUsPara");
+        abotUsPara.setAttribute("class", "center");
+        abotUsPara.innerHTML = NewLink;
+        DocumentBody.appendChild(abotUsPara);
+        document.getElementsByTagName("a")[2].remove();
+    }
+
+    function Background() 
+    {
+        document.body.style.backgroundImage = "url('.././image/HomeBackground.jpg')";
+        document.body.style.color = "white";
+    }
+     function navbar(){
+     
         let DocumentBody = document.body;
+       
+        let detailParagraph = document.createElement("detailParagraph");
+        let abotUsPara = `<nav class="navbar fixed-bottom navbar-light bg-dark">
+        <div align="right">
+        ©️ CopyRight 2022 
+        </div>
+     </nav>`;
+  
+        // step-3 configure
+        detailParagraph.setAttribute("class", "container");
+        // step-4 performation
+  
+        detailParagraph.innerHTML = abotUsPara;
+        DocumentBody.appendChild(detailParagraph);
+     }
      
-        // Step 2 creat an element(s) to insert
-        let Article = document.createElement("article");
-        let abotUsPara = `<p id="abotUsPara" class="mt-3"><h3>You have reached the most amazing website, 
-        look around and you will find many interesting things. This is home page of the website, if you want to know more about us, 
-        click on that blue button. 
-      </h3></p>`;
+    function DisplayProductsPage()
+    {
+        console.log("Products Page");
    
-        // Step 3 configure new element
-        Article.setAttribute("class", "container");
-   
-        // Step 4 add / insert new element
-        Article.innerHTML = abotUsPara;
-        DocumentBody.appendChild(Article);
-     MainParagraph.textContent = "";
-     // step-4 performation
-     MainContent.appendChild(MainParagraph);
-
-
-  }
-
-  function navbar(){
-     
-      let DocumentBody = document.body;
-     
-      let detailParagraph = document.createElement("detailParagraph");
-      let abotUsPara = `<nav class="navbar fixed-bottom navbar-light bg-dark">
-      <div align="right">
-      ©️ CopyRight 2022 
-      </div>
-   </nav>`;
-
-      // step-3 configure
-      detailParagraph.setAttribute("class", "container");
-      // step-4 performation
-
-      detailParagraph.innerHTML = abotUsPara;
-      DocumentBody.appendChild(detailParagraph);
-
-   }
-   navbar();
-
-   
-   function DisplayAboutpage(){
-      console.log("About page");
-      document.body.style.color = "White";
-      document.body.style.backgroundImage = "url('../image/HomeBackground.jpg')";
-      let ChangeTitle = document.getElementById("changeTitle");
-        ChangeTitle.innerHTML = `<i class="fas fa-project-diagram"></i>Projects`;
-      // Step 1 get an entry point(s) (insertion point / deletion point)
-     let DocumentBody = document.body;
-     
-     // Step 2 creat an element(s) to insert
-     let Article = document.createElement("article");
-     let abotUsPara = `<p id="abotUsPara" class="mt-3"><h3>Our goal for this lab is to shows our best work and our skills of web designing and editing.
-     We Both contributed with our efforts providing majority of work as per requirements. This lab is result
-     of best teamwork as well as proper division of task among the team. 
-   </h3></p>`;
-
-     // Step 3 configure new element
-     Article.setAttribute("class", "container");
-
-     // Step 4 add / insert new element
-     Article.innerHTML = abotUsPara;
-     DocumentBody.appendChild(Article);
-   }
-
-   function DisplayContactpage(){
-      console.log("Contact page");
-      
-      document.body.style.color = "White";
-      document.body.style.backgroundImage = "url('../image/HomeBackground.jpg')";
-      let ChangeTitle = document.getElementById("changeTitle");
-      ChangeTitle.innerHTML = `<i class="fas fa-project-diagram"></i>Projects`;
-        
-      let sendButton = document.getElementById("sendButton");
-      let subscribeCheckbox = document.getElementById("subscribeCheckbox");
-
-      sendButton.addEventListener("click", function(event)
-      {
-          //event.preventDefault();
-
-          if(subscribeCheckbox.checked)
-          {
-              let contact = new Contact(fullName.value, contactNumber.value, emailAddress.value);
-              if(contact.serialize())
-              {
-                  let key = contact.FullName.substring(0, 1) + Date.now();
-
-                  localStorage.setItem(key, contact.serialize());
-              }
-          }
-      });
-
-   }
-
-   function DisplayProductspage(){
-      console.log("Products Page.");
-      document.body.style.backgroundImage = "url('../image/HomeBackground.jpg')";
-      document.body.style.color = "White";
-      function ChangeProductToProject(){
-         let ChangeTitle = document.getElementById("changeTitle");
-        ChangeTitle.innerHTML = `<i class="fas fa-project-diagram"></i>Projects`;
-        let PageTitle = document.getElementById("pageTitle");
-        PageTitle.innerHTML = `Our three best Projects.`;
-        let DocumentBody = document.body;
-      };
-      ChangeProductToProject();
-     
-     //step-1 - get a reference to entry point.
+        //step-1 - get a reference to entry point.
      let DocumentBody = document.body;
      let detailParagraph = document.createElement("detailParagraph");
      let detailParagraphParagraph = `<table id="tableInfo" width="90%">
@@ -151,15 +81,13 @@
      // step-4 performation
      detailParagraph.innerHTML = detailParagraphParagraph;
      DocumentBody.appendChild(detailParagraph);
-   }
+     
 
-   function DisplayServicespage(){
-      console.log("Services Page.");
-      document.body.style.backgroundImage = "url('../image/HomeBackground.jpg')";
-      document.body.style.color = "White";
-
-       //step-1 - get a reference to entry point.
-     let DocumentBody = document.body;
+    }
+    function DisplayServicesPage()
+    {
+        console.log("Services Page");
+        let DocumentBody = document.body;
      let detailParagraph = document.createElement("detailParagraph");
      let detailParagraphParagraph = `<table id="tableInfo" width="90%">
      <tr>
@@ -187,22 +115,117 @@
      // step-4 performation
      detailParagraph.innerHTML = detailParagraphParagraph;
      DocumentBody.appendChild(detailParagraph);
-       
-   }
+      
+     
 
-   function DisplayContactListpage(){
-      console.log("Contact-list page");
-      document.body.style.color = "White";
-      document.body.style.backgroundImage = "url('../image/HomeBackground.jpg')";
+    }
+    function DisplayAboutUsPage()
+    {
+        console.log("About Us Page");
+        let DocumentBody = document.body;
+        let abotUsPara = document.createElement("abotUsPara");
+        let WelcomePara = `<table id="tableInfo" width="90%">
+        <tr>
+           <th width="33.3%"><h3 style="margin-left: 100px;">Our goal for this lab is to shows our best work and our skills of web designing and editing.
+           We Both contributed with our efforts providing majority of work as per requirements. This lab is result
+           of best teamwork as well as proper division of task among the team. 
+      
+   </h3></th>
+        </tr>
+         </table>`;
+        // step-3 configure
+        abotUsPara.setAttribute("class", "center");
+        abotUsPara.innerHTML = WelcomePara;
+        DocumentBody.appendChild(abotUsPara);
+    }
 
+    function DisplayHomePage()
+    {
+        console.log("Home Page.")
+        
+        let AboutUsButton = document.getElementById("AboutUsButton");
 
+        AboutUsButton.addEventListener("click", function()
+        {
+            //redirect to about page
+            location.href = "about.html";
+        });
 
-      let ChangeTitle = document.getElementById("changeTitle");
-        ChangeTitle.innerHTML = `<i class="fas fa-project-diagram"></i>Projects`;
+        let DocumentBody = document.body;
+     let abotUsPara = document.createElement("abotUsPara");
+     let WelcomePara = `<table id="tableInfo" width="90%">
+     <tr>&nbsp
+     </tr>
+     <tr>
+        <th width="33.3%"><h3 style="margin-left: 100px;">You have reached the most amazing website, 
+        look around and you will find many interesting things. This is home page of the website, if you want to know more about us, 
+        click on that blue button. 
+</h3></th>
+     </tr>
+     <tr>
+     <th>
+     <img style="margin-left: 100px;" style="border-radius: 40px 40px 0 0;" src= "./image/welcome.jpg" width="550" height="350"style="float: center;">
+     </th>
+     </tr>
+      </table>`;
+     // step-3 configure
+     abotUsPara.setAttribute("class", "center");
+     abotUsPara.innerHTML = WelcomePara;
+     DocumentBody.appendChild(abotUsPara);
+    }
 
-        if(localStorage.length > 0) // check if localStorage has something in it 
+    function Redirect() {
+        let count = 3;
+        setInterval(function(){
+            count--;
+            if (count == 0)
+            {
+                window.location = "contact-list.html";
+            }
+        }, 1000);
+        
+      }
+
+    
+    function DisplayContactUsPage()
+    {
+        console.log("Contact Us Page");
+
+        let sendButton = document.getElementById("sendButton");
+        let subscribeCheckBox = document.getElementById("subscribeCheckBox");
+
+        //localStorage.setItem("1", "Parth");
+        //console.log(localStorage.getItem("1"));
+        //localStorage.removeItem("1");
+        //console.log(localStorage.length);
+
+        sendButton.addEventListener("click", function()
+        {
+            
+            //event.preventDefault(); // for debugging
+
+            if(subscribeCheckBox.checked)
+            {
+                let contact = new Contact(fullName.value, contactNumber.value, emailAddress.value);
+                if(contact.serialize())
+                {
+                    let key = contact.FullName.substring(0, 1) + Date.now();
+
+                    localStorage.setItem(key, contact.serialize());
+                    Redirect();
+                }
+            }
+            
+        })
+    }
+
+    function DisplayContactListPage()
+    {
+        console.log("Contact-List Page");
+        if(localStorage.length > 0) // check if local storage has something in it
         {
             let contactList = document.getElementById("contactList");
+            contactList.setAttribute("style", "color: White; border: 0px;")
 
             let data = "";
 
@@ -210,12 +233,12 @@
 
             let index = 1;
 
-            //for every key in the keys collection loop
+            // for every key in keys collection
             for(const key of keys)
             {
-                let contactData = localStorage.getItem(key); // retrieve contact data from localStorage
+                let contactData = localStorage.getItem(key); // retrieves contact data from local storage
 
-                let contact = new Contact(); // create an empty Contact Object
+                let contact = new Contact(); // creat an empty contact object 
                 contact.deserialize(contactData);
 
                 data += `<tr>
@@ -225,67 +248,68 @@
                 <td>${contact.EmailAddress}</td>
                 <td></td>
                 <td></td>
-                </tr>
-                `;
-                
-                index++;
+                </tr>`
+
+                index ++;
             }
 
             contactList.innerHTML = data;
         }
-   }
+    }
 
-   function DisplayParthpage(){
-      console.log("Parth Page");
-      document.body.style.backgroundImage = "url('../image/HomeBackground.jpg')";
-      document.body.style.color = "White";
-      let ChangeTitle = document.getElementById("changeTitle");
-        ChangeTitle.innerHTML = `<i class="fas fa-project-diagram"></i>Projects`;
-   }
+    function DisplayParthPage(){
+        console.log("Parth's page");
+        
+     }
+  
+      function DisplayYashPage(){
+         console.log("Yash's page");
+         
+      }
 
-   function DisplayYashpage(){
-      console.log("Yash Page");
-      document.body.style.backgroundImage = "url('../image/HomeBackground.jpg')";
-      document.body.style.color = "White";
-      let ChangeTitle = document.getElementById("changeTitle");
-        ChangeTitle.innerHTML = `<i class="fas fa-project-diagram"></i>Projects`;
-   }
   
 
     // named function
     function Start()
     {
-        console.log("App Started!!");
+        navbar();
+        Background();
+        LinkHumanResource();
+        ChangeProductsToProjects();
+        console.log("App Started!");
 
         switch(document.title)
         {
             case "Home":
-               DisplayHomePage();
-               break;
+                DisplayHomePage();
+            break;
             case "Our Products":
-               DisplayProductspage();
-               break;
+                DisplayProductsPage();
+                break;
             case "Our Services":
-               DisplayServicespage();
-               break;
-            case "About us":
-               DisplayAboutpage();
-               break;
-            case "Contact us":
-               DisplayContactpage();
-               break;
+                DisplayServicesPage();
+                break;
+            case "About Us":
+                DisplayAboutUsPage();
+                break;
+            case "Contact Us":
+                DisplayContactUsPage();
+                break;
             case "Contact-List":
-               DisplayContactListpage();
-               break;
+                DisplayContactListPage();
+                break;
             case "Parth":
-               DisplayParthpage();
-               break;
+                DisplayParthPage();
+                break;
             case "Yash":
-               DisplayYashpage();
-               break;
+                DisplayYashPage();
+                break;
+    
         }
+
+        let AboutUsButton = document.getElementById("AboutUsButton");
+        console.log(AboutUsButton);
     }
-
     window.addEventListener("load", Start);
-
+    
 })();
