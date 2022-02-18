@@ -2,6 +2,34 @@
 // AKA Anonymous Self-Executing Function
 (function()
 {
+    /**
+     * This function uses AJAX open a connection to the url and returns data to the callback function
+     *
+     * @param {string} method
+     * @param {string} url
+     * @param {Function} callback
+     */
+     function AjaxRequest(method, url, callback)
+     {
+         // step 1 - create a new XHR object
+         let XHR = new XMLHttpRequest();
+ 
+         // step 2 - create an event
+         XHR.addEventListener("readystatechange", ()=>
+         {
+             if(XHR.readyState === 4 && XHR.status === 200)
+             {
+                callback(XHR.responseText);
+             }
+         });
+ 
+         // step 3 - open a request
+         XHR.open(method, url);
+ 
+         // step 4 - send the request
+         XHR.send();
+     }
+ 
 
     function DisplayAboutPage()
     {
@@ -18,6 +46,17 @@
         console.log("Services Page");
     }
 
+    /**
+     * This function loads the Navbar from the header file and injects into the page
+     *
+     * @param {*} data
+     */
+     function LoadHeader(data)
+     {
+         $("header").html(data);
+         $(`li>a:contains(${document.title})`).addClass("active");
+         CheckLogin();
+     }
 
     function DisplayHomePage()
     {
@@ -111,6 +150,8 @@
     function DisplayContactListPage()
     {
         console.log("Contact-List Page");
+
+        
 
         if(localStorage.length > 0) // check if localStorage has something in it 
         {
@@ -243,6 +284,85 @@
     function DisplayLoginPage()
     {
         console.log("Login Page.");
+        let messageArea = $("#messageArea");
+        messageArea.hide();
+
+        $("#loginButton").on("click", function()
+        {
+            let success = false;
+
+            // creat an empty user object
+            let newUser = new core.User();
+
+            // use jQuery shortcut to loa the user.json 
+            $.get("./Data/users.json", function(data)
+            {
+                // for every user in the users.json file, loop
+                for (const user of data.users)
+                {
+                    // check if the username anfd password entered match with user
+                    if(username.value == user.Username && password.value == user.Password)
+                    {
+                        // get the data and assign it to our user object
+                        newUser.fromJSON(user);
+                        success = true;
+                        break;
+                    }
+                }
+                    // if username and password matches then - success...perform the login sequence
+                if(success)
+                {
+                    // add user to session storage
+                    sessionStorage.setItem("user", newUser.serialize());
+
+                    // hide any error messages
+                    messageArea.removeAttr("class").hide();
+
+                    // redirect the user to the secure area of our site - contact -list
+                    location.href = "contact-list.html";
+
+                }
+                else
+                {
+                    // display an error message
+                    $("#username").trigger("focus").trigger("select");
+                    messageArea.addClass("alert alert-danger").text("ERROR: invalid Login Information.").show();            
+                }
+            });
+
+
+            
+
+            $("#cancleButton").on("click", function() 
+            {
+                // clear the login form
+                document.forms[0].reset();
+
+                // return to the home page
+                location.href = "index.html";
+            });
+        });
+    }
+
+    function CheckLogin()
+    {
+        // if user is logged in
+        if(sessionStorage.getItem("user"))
+        {
+            // swap out the login link fot the logout link
+            $("#login").html(
+                `<a id="logout" class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>`
+            );
+
+            $("#logout").on("click", function ()
+            {
+                // perform logout
+                sessionStorage.clear();
+
+                // redirect to login page
+                location.href = "login.html";
+            });
+        }
     }
 
     function DisplayRegisterPage()
@@ -254,6 +374,9 @@
     function Start()
     {
         console.log("App Started!!");
+        AjaxRequest("GET", "header.html", LoadHeader);
+
+        
 
         switch (document.title) 
         {
