@@ -1,22 +1,17 @@
 "use strict";
 (function()
 {
-    switch (document.title) 
+    let protected_routes =[
+        "contact-list"
+    ];
+
+    if(protected_routes.indexOf(router.ActiveLink) > -1)
+    {
+        if(!sessionStorage.getItem("user"))
         {
-          case "Contact Us":
-              // if user dose not exists in session storage
-            if(!sessionStorage.getItem("user"))
-            {
-                $("#contactListButton").hide();
-            }
-            break;
-          case "Contact-List":
-              // if user dose not exists in session storage
-            if(!sessionStorage.getItem("user"))
-            {
-                // redirect to log in page
-                location.href = "login.html";
-            }
-            break;
+            location.href = "/login";
         }
+    }
+
+    
 })();

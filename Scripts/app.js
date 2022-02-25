@@ -46,17 +46,43 @@
         console.log("Services Page");
     }
 
-    /**
-     * This function loads the Navbar from the header file and injects into the page
+     /**
+     * This function loads the NavBar from the header file and injects it into the page
      *
-     * @param {*} data
      */
-     function LoadHeader(data)
-     {
-         $("header").html(data);
-         $(`li>a:contains(${document.title})`).addClass("active");
-         CheckLogin();
-     }
+      function LoadHeader()
+      {
+          $.get("./Views/components/header.html", function(html_data)
+          {
+              $("header").html(html_data); // data payload
+  
+              // capitalize the active link and then set the document title to the new string
+              document.title = router.ActiveLink.substring(0, 1).toUpperCase() + router.ActiveLink.substring(1);
+              
+              $(`li>a:contains(${document.title})`).addClass("active"); // add a class of 'active'
+              CheckLogin();
+          });
+      }
+  
+      function LoadContent()
+      {
+          let page_name = router.ActiveLink; // alias 
+          let callback = ActiveLinkCallBack(); // returns a reference to the appropriate function
+          $.get(`./Views/content/${page_name}.html`, function(html_data)
+          {
+              $("main").html(html_data); // data payload
+  
+              callback();
+          });
+      }
+  
+      function LoadFooter()
+      {
+          $.get("./Views/components/footer.html", function(html_data)
+          {
+              $("footer").html(html_data); // data payload
+          });
+      }
 
     function DisplayHomePage()
     {
@@ -64,7 +90,7 @@
 
         $("#AboutUsButton").on("click", function()
         {
-            location.href = "about.html";
+            location.href = "/about";
         });
 
         $("main").append(`<p id="MainParagraph" class="mt-3">This is the Main Paragraph</p>`);
@@ -190,7 +216,7 @@
 
             $("#addButton").on("click", () =>
             {
-                location.href = "edit.html#add";
+                location.href = "/edit#add";
             });
 
             $("button.delete").on("click", function()
@@ -200,12 +226,12 @@
                     localStorage.removeItem($(this).val());
                 }
                 
-                location.href = "contact-list.html";
+                location.href = "/contact-list";
             });
 
             $("button.edit").on("click", function() 
             {
-                location.href = "edit.html#" + $(this).val();
+                location.href = "/edit#" + $(this).val();
             });
         }
     }
@@ -232,12 +258,12 @@
                         // Add Contactt
                         AddContact(fullName.value, contactNumber.value, emailAddress.value);
                         // Refresh the contact-list page
-                        location.href ="contact-list.html";
+                        location.href ="/contact-list";
                     });
 
                     $("#cancelButton").on("click", () =>
                     {
-                        location.href ="contact-list.html";
+                        location.href ="/contact-list";
                     });
 
                 }
@@ -267,12 +293,12 @@
                         localStorage.setItem(page, contact.serialize());
 
                         // return to the contact-list
-                        location.href ="contact-list.html";
+                        location.href ="/contact-list";
                     });
 
                     $("#cancelButton").on("click", () =>
                     {
-                        location.href ="contact-list.html";
+                        location.href ="/contact-list";
                     });
                     
                 }
@@ -319,7 +345,7 @@
                     messageArea.removeAttr("class").hide();
 
                     // redirect the user to the secure area of our site - contact -list
-                    location.href = "contact-list.html";
+                    location.href = "/contact-list";
 
                 }
                 else
@@ -339,7 +365,7 @@
                 document.forms[0].reset();
 
                 // return to the home page
-                location.href = "index.html";
+                location.href = "/index";
             });
         });
     }
@@ -360,7 +386,7 @@
                 sessionStorage.clear();
 
                 // redirect to login page
-                location.href = "login.html";
+                location.href = "/login";
             });
         }
     }
@@ -370,47 +396,48 @@
         console.log("Register Page.");
     }
 
-    // named function
-    function Start()
+    function Display404Page()
     {
-        console.log("App Started!!");
-        AjaxRequest("GET", "header.html", LoadHeader);
-
-        
-
-        switch (document.title) 
-        {
-          case "Home":
-            DisplayHomePage();
-            break;
-          case "Contact Us":
-            DisplayContactPage();
-            break;
-          case "Contact-List":
-            DisplayContactListPage();
-            break;
-          case "About Us":
-            DisplayAboutPage();
-            break;
-          case "Our Products":
-            DisplayProductsPage();
-            break;
-          case "Our Services":
-            DisplayServicesPage();
-            break;
-          case "Edit":
-            DisplayEditPage();
-            break;
-          case "Login":
-            DisplayLoginPage();
-            break;
-          case "Register":
-            DisplayRegisterPage();
-            break;
-
-        }
+         
     }
 
-    window.addEventListener("load", Start);
+    /**
+     * This function returns the Callback function related to active link
+     *
+     * @returns {function}
+     */
+     function ActiveLinkCallBack()
+     {
+         switch(router.ActiveLink)
+         {
+             case "home": return DisplayHomePage;
+             case "about": return DisplayAboutPage;
+             case "products": return DisplayProductsPage;
+             case "services": return DisplayServicesPage;
+             case "contact": return DisplayContactPage;
+             case "contact-list": return DisplayContactListPage;
+             case "edit": return DisplayEditPage;
+             case "login": return DisplayLoginPage;
+             case "register": return DisplayRegisterPage;
+             case "404": return Display404Page;
+             default:
+                 console.error("ERROR: callback does not exist: " + router.ActiveLink);
+                 break;
+         }
+     }
+ 
+     // named function
+     function Start()
+     {
+         console.log("App Started!!");
+ 
+         LoadHeader();
 
-})();
+         LoadContent();
+         
+         LoadFooter();
+     }
+ 
+     window.addEventListener("load", Start);
+ 
+ })();
