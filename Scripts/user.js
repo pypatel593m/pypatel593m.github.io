@@ -1,21 +1,20 @@
-(function(core)
-{
-    class User 
+(function(core){
+
+    class User
     {
         // constructor
-        constructor(displayName = "", emailAddress="", username="", password="")
+        constructor(displayName = "", emailAddress= "", username = "", password = "")
         {
             this.DisplayName = displayName;
             this.EmailAddress = emailAddress;
             this.Username = username;
             this.Password = password;
         }
-        
 
         // overriden functions
         toString()
         {
-            return `Display Name  : ${this.DisplayName}\nEmail Address  : ${this.EmailAddress}\nUser Name  : ${this.Username}`;
+            return `Display Name  : ${this.DisplayName}\nEmail Address : ${this.EmailAddress}\nUsername : ${this.Username}`;
         }
 
         // utility functions
@@ -24,7 +23,7 @@
             return {
                 "DisplayName": this.DisplayName,
                 "EmailAddress": this.EmailAddress,
-                "Username":this.Username
+                "Username": this.Username
             }
         }
 
@@ -36,22 +35,20 @@
             this.Password = data.Password;
         }
 
-        // public methods
-        serialize()
+        serialize() 
         {
-            if(this.DisplayName !== "" && this.EmailAddress !== "" && this.Username !== "")
+            if (this.DisplayName !== "" && this.EmailAddress !== "" && this.Username !== "") 
             {
                 return `${this.DisplayName},${this.EmailAddress},${this.Username}`;
             }
-            console.error("One or more properties of the User object are missing or empty");
+            console.error("One or more properties of the User Object are missing or empty");
             return null;
-            
         }
-    
-        deserialize(data) // assume that the data object is comma-seperated list of properties
+
+        deserialize(data) 
         {
             let propertyArray = data.split(",");
-            this.Username = propertyArray[0];
+            this.DisplayName = propertyArray[0];
             this.EmailAddress = propertyArray[1];
             this.Username = propertyArray[2];
         }

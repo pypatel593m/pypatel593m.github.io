@@ -3,33 +3,45 @@
 (function()
 {
     /**
-     * This function uses AJAX open a connection to the url and returns data to the callback function
+     * This method uses AJAX to open a connection to the url and returns data to the callback function
      *
      * @param {string} method
      * @param {string} url
      * @param {Function} callback
      */
-     function AjaxRequest(method, url, callback)
-     {
-         // step 1 - create a new XHR object
-         let XHR = new XMLHttpRequest();
- 
-         // step 2 - create an event
-         XHR.addEventListener("readystatechange", ()=>
-         {
-             if(XHR.readyState === 4 && XHR.status === 200)
-             {
-                callback(XHR.responseText);
-             }
-         });
- 
-         // step 3 - open a request
-         XHR.open(method, url);
- 
-         // step 4 - send the request
-         XHR.send();
-     }
- 
+    function AjaxRequest(method, url, callback)
+    {
+        // step 1 - instantiate an XHR object
+        let XHR = new XMLHttpRequest();
+
+        // step 2 - create an event listener / handler for readystatechange event
+        XHR.addEventListener("readystatechange", () =>
+        {
+            if(XHR.readyState === 4 && XHR.status === 200)
+            {
+               callback(XHR.responseText);
+            }
+        });
+
+        // step 3 - open a connection to the server
+        XHR.open(method, url);
+
+        // step 4 - send the request to the server
+        XHR.send();
+    }
+
+    /**
+     * This function loads the NavBar from the header file and injects it into the page
+     *
+     * @param {string} data
+     */
+    function LoadHeader(data)
+    {
+        $("header").html(data); // data payload
+        $(`li>a:contains(${document.title})`).addClass("active"); // add a class of 'active'
+        CheckLogin();
+    }
+
 
     function DisplayAboutPage()
     {
@@ -46,17 +58,6 @@
         console.log("Services Page");
     }
 
-    /**
-     * This function loads the Navbar from the header file and injects into the page
-     *
-     * @param {*} data
-     */
-     function LoadHeader(data)
-     {
-         $("header").html(data);
-         $(`li>a:contains(${document.title})`).addClass("active");
-         CheckLogin();
-     }
 
     function DisplayHomePage()
     {
@@ -93,12 +94,12 @@
     }
 
     /**
-     * This method validates an input text fields in the form
-     * and displays an error in message Area div element
-     * 
-     * @param {string} input_field_ID 
-     * @param {RegExp} regular_expression 
-     * @param {string} errpr_message 
+     * This method validates an input text field in the form and displays
+     * an error in the message area div element
+     *
+     * @param {string} input_field_ID
+     * @param {RegExp} regular_expression
+     * @param {string} error_message
      */
     function ValidateField(input_field_ID, regular_expression, error_message)
     {
@@ -106,33 +107,32 @@
 
         $("#" + input_field_ID).on("blur", function()
         {
-            let inputTextContent = $(this).val(); 
-            if(!regular_expression.test(inputTextContent))
+            let input_text_field = $(this).val(); 
+            if(!regular_expression.test(input_text_field)) 
             {
-                $(this).trigger("focus").trigger("select");
+                $(this).trigger("focus").trigger("select"); 
                 messageArea.addClass("alert alert-danger").text(error_message).show();
             }
             else 
             {
                 messageArea.removeAttr("class").hide();
-            }
+            } 
         });
     }
 
     function ContactFormValidation()
     {
-        ValidateField("fullName", /^([A-Z][a-z]{1,3}.?\s)?([A-Z][a-z]{1,25})((\s|,|-)([A-Z][a-z]{1,25}))*(\s|,|-)([A-Z][a-z]{1,25})$/, "Please enter a valid Full Name. This must include at least a Capitalized first name followed by a Capitalized last Name.");
-        ValidateField("contactNumber", /^(\+\d{1,3}[\s-.])?\(?\d{3}\)?[\s-.]?\d{3}[\s-.]?\d{4}$/, "Please enter a valid Contact Number. Contact Number Example: (905) 555-5555");
-        ValidateField("emailAddress", /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/, "Please enter a valid Email address.");
+        ValidateField("fullName",/^([A-Z][a-z]{1,3}.?\s)?([A-Z][a-z]{1,25})+(\s|,|-)([A-Z][a-z]{1,25})+(\s|,|-)*$/,"Please enter a valid Full Name. This must include at least a Capitalized first name followed by a Capitalized last Name.");
+        ValidateField("contactNumber",/^(\+\d{1,3}[\s-.])?\(?\d{3}\)?[\s-.]?\d{3}[\s-.]?\d{4}$/,"Please enter a valid Contact Number. Example: (905) 555-5555");
+        ValidateField("emailAddress",/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/,"Please enter a valid Email Address.");
     }
 
     function DisplayContactPage()
     {
         console.log("Contact Us Page");
-        
+
         ContactFormValidation();
         
-
         let sendButton = document.getElementById("sendButton");
         let subscribeCheckbox = document.getElementById("subscribeCheckbox");
 
@@ -150,8 +150,6 @@
     function DisplayContactListPage()
     {
         console.log("Contact-List Page");
-
-        
 
         if(localStorage.length > 0) // check if localStorage has something in it 
         {
@@ -280,10 +278,10 @@
         }
     }
 
-
     function DisplayLoginPage()
     {
-        console.log("Login Page.");
+        console.log("Login Page");
+
         let messageArea = $("#messageArea");
         messageArea.hide();
 
@@ -291,25 +289,26 @@
         {
             let success = false;
 
-            // creat an empty user object
+            // create an empty User object
             let newUser = new core.User();
 
-            // use jQuery shortcut to loa the user.json 
+            // use jQuery shortcut to load the users.json file
             $.get("./Data/users.json", function(data)
-            {
-                // for every user in the users.json file, loop
-                for (const user of data.users)
+            { 
+                // for everry user in the users.json file, loop
+                for (const user of data.users) 
                 {
-                    // check if the username anfd password entered match with user
+                    // check if the username and password entered match with user
                     if(username.value == user.Username && password.value == user.Password)
                     {
-                        // get the data and assign it to our user object
+                        // get the user data from the file and assign it to our empty user object
                         newUser.fromJSON(user);
                         success = true;
                         break;
                     }
                 }
-                    // if username and password matches then - success...perform the login sequence
+
+                 // if username and password matches - success...perform the login sequence
                 if(success)
                 {
                     // add user to session storage
@@ -318,27 +317,25 @@
                     // hide any error messages
                     messageArea.removeAttr("class").hide();
 
-                    // redirect the user to the secure area of our site - contact -list
+                    // redirect the user to the secure area of our site - contact-list
                     location.href = "contact-list.html";
-
                 }
                 else
                 {
                     // display an error message
                     $("#username").trigger("focus").trigger("select");
-                    messageArea.addClass("alert alert-danger").text("ERROR: invalid Login Information.").show();            
+                    messageArea.addClass("alert alert-danger").text("Error: Invalid Login Information.").show();
                 }
             });
 
+           
 
-            
-
-            $("#cancleButton").on("click", function() 
+            $("#cancelButtton").on("click", function()
             {
                 // clear the login form
                 document.forms[0].reset();
 
-                // return to the home page
+                // return to  the home page
                 location.href = "index.html";
             });
         });
@@ -349,17 +346,17 @@
         // if user is logged in
         if(sessionStorage.getItem("user"))
         {
-            // swap out the login link fot the logout link
+            // swap out the login link for the logout link
             $("#login").html(
                 `<a id="logout" class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>`
             );
 
-            $("#logout").on("click", function ()
+            $("#logout").on("click", function()
             {
                 // perform logout
                 sessionStorage.clear();
 
-                // redirect to login page
+                // redirect back to login
                 location.href = "login.html";
             });
         }
@@ -367,19 +364,19 @@
 
     function DisplayRegisterPage()
     {
-        console.log("Register Page.");
+        console.log("Register Page");
     }
 
     // named function
     function Start()
     {
         console.log("App Started!!");
+
         AjaxRequest("GET", "header.html", LoadHeader);
 
         
 
-        switch (document.title) 
-        {
+        switch (document.title) {
           case "Home":
             DisplayHomePage();
             break;
@@ -407,7 +404,6 @@
           case "Register":
             DisplayRegisterPage();
             break;
-
         }
     }
 
