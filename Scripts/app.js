@@ -186,10 +186,7 @@
 
             contactList.innerHTML = data;
 
-            $("#addButton").on("click", () =>
-            {
-                location.href = "edit.html#add";
-            });
+            
 
             $("button.delete").on("click", function()
             {
@@ -206,6 +203,10 @@
                 location.href = "edit.html#" + $(this).val();
             });
         }
+        $("#addButton").on("click", () =>
+            {
+                location.href = "edit.html#add";
+            });
     }
 
     function DisplayEditPage()
@@ -215,7 +216,7 @@
         ContactFormValidation();
 
         let page = location.hash.substring(1);
-
+        console.log(page);
         switch(page)
         {
             case "add":
@@ -223,26 +224,25 @@
                     $("main>h1").text("Add Contact");
 
                     $("#editButton").html(`<i class="fas fa-plus-circle fa-lg"></i> Add`);
-
-                    $("#editButton").on("click", (event) => 
+                
+                    $("#editButton").on("click", (event)=>
                     {
                         event.preventDefault();
-                        // Add Contactt
+                        // Add Contact
                         AddContact(fullName.value, contactNumber.value, emailAddress.value);
-                        // Refresh the contact-list page
-                        location.href ="contact-list.html";
+                        // refresh the contact-list page
+                        location.href = "contact-list.html";
                     });
 
                     $("#cancelButton").on("click", () =>
                     {
-                        location.href ="contact-list.html";
+                        location.href = "contact-list.html";
                     });
-
                 }
                 break;
             default:
                 {
-                    // get the contact info from localStorage
+                    // get the contact  info from localStorage
                     let contact = new core.Contact();
                     contact.deserialize(localStorage.getItem(page));
 
@@ -251,7 +251,7 @@
                     $("#contactNumber").val(contact.ContactNumber);
                     $("#emailAddress").val(contact.EmailAddress);
 
-                    // when Edit is pressed - update the contact
+                    // when editButton is pressed - update the contact
                     $("#editButton").on("click", (event)=>
                     {
                         event.preventDefault();
@@ -265,14 +265,13 @@
                         localStorage.setItem(page, contact.serialize());
 
                         // return to the contact-list
-                        location.href ="contact-list.html";
+                        location.href = "contact-list.html";
                     });
 
                     $("#cancelButton").on("click", () =>
                     {
-                        location.href ="contact-list.html";
+                        location.href = "contact-list.html";
                     });
-                    
                 }
                 break;
         }
