@@ -2,6 +2,46 @@
 
     class User
     {
+        get FirstName()
+        {
+            return this.m_First_Name;
+        }
+    
+        set FirstName(first_name)
+        {
+            this.m_First_Name = first_name;
+        }
+    
+        get LastName()
+        {
+            return this.m_Last_Name;
+        }
+    
+        set LastName(last_name)
+        {
+            this.m_Last_Name = last_name;
+        }
+    
+        get EmailAddress()
+        {
+            return this.m_emailAddress;
+        }
+    
+        set EmailAddress(email_address)
+        {
+            this.m_emailAddress = email_address;
+        }
+
+        get Password()
+        {
+            return this.m_Password;
+        }
+
+        set Password(password)
+        {
+            this.m_Password = password;
+        }
+
         // constructor
         constructor(displayName = "", emailAddress= "", username = "", password = "")
         {

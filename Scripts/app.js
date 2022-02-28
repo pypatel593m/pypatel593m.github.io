@@ -1,5 +1,4 @@
-// IIFE -- Immediately Invoked Function Expression
-// AKA Anonymous Self-Executing Function
+
 (function()
 {
     /**
@@ -23,7 +22,6 @@
             }
         });
 
-        // step 3 - open a connection to the server
         XHR.open(method, url);
 
         // step 4 - send the request to the server
@@ -40,6 +38,7 @@
         $("header").html(data); // data payload
         $(`li>a:contains(${document.title})`).addClass("active"); // add a class of 'active'
         CheckLogin();
+        AddUserName();
     }
 
 
@@ -93,6 +92,7 @@
         }
     }
 
+
     /**
      * This method validates an input text field in the form and displays
      * an error in the message area div element
@@ -103,7 +103,7 @@
      */
     function ValidateField(input_field_ID, regular_expression, error_message)
     {
-        let messageArea = $("#messageArea").hide();
+        let ErrorMessage = $("#ErrorMessage").hide();
 
         $("#" + input_field_ID).on("blur", function()
         {
@@ -111,11 +111,11 @@
             if(!regular_expression.test(input_text_field)) 
             {
                 $(this).trigger("focus").trigger("select"); 
-                messageArea.addClass("alert alert-danger").text(error_message).show();
+                ErrorMessage.addClass("alert alert-danger").text(error_message).show();
             }
             else 
             {
-                messageArea.removeAttr("class").hide();
+                ErrorMessage.removeAttr("class").hide();
             } 
         });
     }
@@ -146,6 +146,7 @@
             }
         });
     }
+
 
     function DisplayContactListPage()
     {
@@ -185,8 +186,6 @@
             }
 
             contactList.innerHTML = data;
-
-            
 
             $("button.delete").on("click", function()
             {
@@ -281,8 +280,8 @@
     {
         console.log("Login Page");
 
-        let messageArea = $("#messageArea");
-        messageArea.hide();
+        let ErrorMessage = $("#ErrorMessage");
+        ErrorMessage.hide();
 
         $("#loginButton").on("click", function()
         {
@@ -314,7 +313,7 @@
                     sessionStorage.setItem("user", newUser.serialize());
 
                     // hide any error messages
-                    messageArea.removeAttr("class").hide();
+                    ErrorMessage.removeAttr("class").hide();
 
                     // redirect the user to the secure area of our site - contact-list
                     location.href = "contact-list.html";
@@ -323,7 +322,7 @@
                 {
                     // display an error message
                     $("#username").trigger("focus").trigger("select");
-                    messageArea.addClass("alert alert-danger").text("Error: Invalid Login Information.").show();
+                    ErrorMessage.addClass("alert alert-danger").text("Error: Invalid Login Information.").show();
                 }
             });
 
@@ -342,6 +341,7 @@
 
     function CheckLogin()
     {
+        
         // if user is logged in
         if(sessionStorage.getItem("user"))
         {
@@ -361,10 +361,65 @@
         }
     }
 
+    function AddUserName()
+    {
+        
+        // if user is logged in
+        if(sessionStorage.getItem("user"))
+        {
+            let userName = sessionStorage.getItem("user").split(',')[2];
+            $(`<li class="nav-item"><a id="logout" class="nav-link active"></i> ${userName} :</a></li>`).insertBefore("#login");
+        }
+        
+    }
+
     function DisplayRegisterPage()
     {
+        $("#ErrorMessage").hide();
         console.log("Register Page");
+        $(`<div id="ErrorMessage" class="alert alert-danger"></div>`).insertBefore(".row:first");
+        let firstName = $("#firstName").val();
+        let lastName = $("#lastName").val();
+        let emailAddress = $("#emailAddress").val();
+        let password = $("#password").val();
+        let confirmPassword = $("#confirmPassword").val();
+        RegisterFormValidation();
+        $("#confirmPassword").on('keyup', function() {
+            
+            if (password != confirmPassword)
+            {
+                $("#ErrorMessage").addClass("alert alert-danger").text("Confirm password dosen't match with the password.").show();
+            }
+             
+            else
+            {
+                $("#ErrorMessage").removeAttr("class").hide();
+            }
+             
+        }); 
+
+        let newUser2 = new core.User(firstName, lastName, emailAddress, password);
+
+        $("#submitButton").on("click", (event)=>
+        {
+            event.preventDefault();
+            console.log("Button");
+            console.log(newUser2);
+            document.forms[0].reset();
+        });
+
     }
+
+    function RegisterFormValidation()
+    {
+        ValidateField("FirstName", /^([A-Za-z]{2,25})$/, "First Name should have atleast two characters and cannot contain any special characters or number.");
+        ValidateField("lastName", /^([A-Za-z]{2,25})$/, "Last Name should have atleast two alphabets and cannot contain any special characters or number.");
+        ValidateField("emailAddress",/^([a-zA-Z0-9._-]{8,})+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/,"Please enter valid email address.");
+        ValidateField("password",/^[a-zA-Z0-9.!@#$%^&*+-><{},;:'"]{6,}$/,"Password should have atleast 6 characters.");
+
+
+    }
+
 
     // named function
     function Start()
