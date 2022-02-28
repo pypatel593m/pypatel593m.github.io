@@ -1,4 +1,10 @@
-
+/*
+    Project: Lab 2
+     Author: Parth Patel & Yash patel
+       Date: 27th Feb 2022
+Description: We have added validation to the register page form, 
+             and included username into nav bar between the contact us link and login/out link.      
+*/
 (function()
 {
     /**
@@ -361,6 +367,10 @@
         }
     }
 
+    /**
+     * This function adds the user name between the contact us and login/logout link,
+     *  if the user is logged in.
+     */
     function AddUserName()
     {
         
@@ -375,8 +385,11 @@
 
     function DisplayRegisterPage()
     {
+        // hide the error message
         $("#ErrorMessage").hide();
         console.log("Register Page");
+
+        //added div tag
         $(`<div id="ErrorMessage" class="alert alert-danger"></div>`).insertBefore(".row:first");
         let firstName = $("#firstName").val();
         let lastName = $("#lastName").val();
@@ -384,6 +397,8 @@
         let password = $("#password").val();
         let confirmPassword = $("#confirmPassword").val();
         RegisterFormValidation();
+
+        // comparing password with confirm password.
         $("#confirmPassword").on('keyup', function() {
             
             if (password != confirmPassword)
@@ -400,6 +415,7 @@
 
         let newUser2 = new core.User(firstName, lastName, emailAddress, password);
 
+        // when submit button gets clicked, reset the form and print the user
         $("#submitButton").on("click", (event)=>
         {
             event.preventDefault();
@@ -410,6 +426,9 @@
 
     }
 
+    /**
+     * This function validates all the fields of thr register form with regular expression.
+     */
     function RegisterFormValidation()
     {
         ValidateField("FirstName", /^([A-Za-z]{2,25})$/, "First Name should have atleast two characters and cannot contain any special characters or number.");
