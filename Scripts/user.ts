@@ -2,55 +2,55 @@ namespace core
 {
     export class User
     {
-        // private instance members
+        // private instance members (data)
         private m_displayName: string;
         private m_emailAddress: string;
         private m_username: string;
         private m_password: string;
 
         // getters and setters
-        public get DisplayName(): string 
+        public get DisplayName(): string
         {
             return this.m_displayName;
         }
-
-        public set DisplayName(display_name: string) 
+        
+        public set DisplayName(name: string)
         {
-            this.m_displayName = display_name;
+            this.m_displayName = name;
         }
 
-        public get EmailAddress(): string 
+        public get EmailAddress(): string
         {
             return this.m_emailAddress;
         }
-        
-        public set EmailAddress(email_address: string) 
+
+        public set EmailAddress(email_address: string)
         {
             this.m_emailAddress = email_address;
         }
 
-        public get Username(): string 
+        public get Username(): string
         {
             return this.m_username;
         }
 
-        public set Username(username: string) 
+        public set Username(username: string)
         {
             this.m_username = username;
         }
 
-        public get Password(): string 
+        public get Password(): string
         {
             return this.m_password;
         }
 
-        public set Password(password: string) 
+        public set Password(password: string)
         {
             this.m_password = password;
         }
 
         // constructor
-        constructor(displayName:string = "", emailAddress:string = "", username:string ="", password:string = "")
+        constructor(displayName: string = "", emailAddress: string = "", username: string = "", password: string = "")
         {
             this.m_displayName = displayName;
             this.m_emailAddress = emailAddress;
@@ -58,15 +58,21 @@ namespace core
             this.m_password = password;
         }
 
-        // overridden methods
+        // method overrides
+
+        /**
+         * This method overrides the built-in toString method and returns a comma-separated string containing the object's property values
+         * @override
+         * @returns {string}
+         */
         toString(): string
         {
-            return `Display Name : ${this.DisplayName}\nEmail Address : ${this.EmailAddress}\nUsername : ${this.Username}`;
+            return `Display Name    : ${this.DisplayName} \nEmail Address : ${this.EmailAddress} \nUsername : ${this.Username}`;
         }
 
         // utility methods
 
-        // TODO: Fix Return Type
+        // TODO: need to fix the Return type
         toJSON()
         {
             return {
@@ -76,8 +82,8 @@ namespace core
             }
         }
 
-        //TODO: Fix data type
-        fromJSON(data: any)
+        // TODO: need to fix the parameter data type
+        fromJSON(data: any): void
         {
             this.DisplayName = data.DisplayName;
             this.EmailAddress = data.EmailAddress;
@@ -85,17 +91,31 @@ namespace core
             this.Password = data.Password;
         }
 
-        serialize() : string | null
+        /**
+         * This method converts the object's properties into a comma-separated string
+         *
+         * @returns {(string | null)}
+         */
+        serialize(): string | null
         {
             if(this.DisplayName !== "" && this.EmailAddress !== "" && this.Username !== "")
             {
                 return `${this.DisplayName},${this.EmailAddress},${this.Username}`;
             }
-            console.error("One or more properties of the User Object are missing or invalid");
-            return null;
+            else
+            {
+                console.error("One or more properties of the User is empty");
+                return null;
+            }
         }
-    
-        deserialize(data: string) // assume that data is in a comma-separated format (string array of properties)
+
+        /**
+         * This method separates the data string parameter into the object's properties
+         *
+         * @param {string} data
+         * @returns {void}
+         */
+        deserialize(data: string)
         {
             let propertyArray: string[] = data.split(",");
             this.DisplayName = propertyArray[0];

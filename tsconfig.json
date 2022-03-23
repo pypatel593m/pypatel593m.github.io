@@ -12,8 +12,7 @@
         "strictPropertyInitialization": true,
         "noImplicitThis": true,
         "alwaysStrict": true,
-        "noImplicitReturns": true,
-     },
-
-     "exclude": ["node_modules"]
+        "noImplicitReturns": true
+    },
+    "exclude": ["node_modules"]
 }

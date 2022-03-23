@@ -1,76 +1,82 @@
+// NAME        : YASH PATEL & PARTH PATEL
+// DATE        : 23 MARCH 2022
+// DESCRIPTION : In this file we have added protected routes to task-list files. We have even added function to show task-list nav link when
+//               user is logged in and remove that link when user is logged out. We also created call back function for task-list.html.
 (function()
 {
-
     function AuthGuard(): void
     {
         let protected_routes: string[] = [
-            "contact-list"
+            "contact-list",
+            "task-list"
         ];
+    
     
         if(protected_routes.indexOf(router.ActiveLink) > -1)
         {
-            // if user does not exist in session storage
+            // check if user is not logged in
             if(!sessionStorage.getItem("user"))
             {
-                // if not...change the active link to the login page
+                // if not...change the active link to the  login page
                 router.ActiveLink = "login";
             }
         }
     }
-
+    
     function LoadLink(link: string, data: string = ""): void
     {
+        
         router.ActiveLink = link;
 
         AuthGuard();
 
         router.LinkData = data;
         history.pushState({}, "", router.ActiveLink);
-
-        // capitalize the active link and set the document title to it
-        document.title = router.ActiveLink.substring(0,1).toUpperCase() + router.ActiveLink.substring(1);
+        
+        // capitalize active link and set document title to it
+        document.title = router.ActiveLink.substring(0, 1).toUpperCase() + router.ActiveLink.substring(1);
 
         // remove all active Nav Links
-        $("ul>li>a").each(function(){
+        $("ul>li>a").each(function()
+        {
             $(this).removeClass("active");
         });
 
-        $(`li>a:contains(${document.title})`).addClass("active"); // add a class of 'active'
+        $(`li>a:contains(${document.title})`).addClass("active"); // updates the Active link on Navigation items
+
+        CheckLogin();
 
         LoadContent();
     }
 
     function AddNavigationEvents(): void
     {
-        let navLinks = $("ul>li>a"); // find all Navigation links
+        let NavLinks = $("ul>li>a"); // find all Navigation Links
 
-        navLinks.off("click");
-        navLinks.off("mouseover");
+        NavLinks.off("click");
+        NavLinks.off("mouseover");
 
         // loop through each Navigation link and load appropriate content on click
-        navLinks.on("click", function()
+        NavLinks.on("click", function()
         {
             LoadLink($(this).attr("data") as string);
         });
 
-        // make Navigation links look like they are clickable
-        navLinks.on("mouseover", function()
+        NavLinks.on("mouseover", function()
         {
-            $(this).css('cursor', 'pointer');
+            $(this).css("cursor", "pointer");
         });
     }
-
 
     function AddLinkEvents(link: string): void
     {
         let linkQuery = $(`a.link[data=${link}]`);
-
         // remove all link events
         linkQuery.off("click");
         linkQuery.off("mouseover");
         linkQuery.off("mouseout");
 
-        // add css to adjust link aesthetic
+        // css adjustments for links
         linkQuery.css("text-decoration", "underline");
         linkQuery.css("color", "blue");
 
@@ -92,7 +98,6 @@
         });
     }
 
-
     /**
      * This function loads the header.html content into a page
      *
@@ -100,19 +105,18 @@
      */
     function LoadHeader(): void
     {
+        
         // use AJAX to load the header content
         $.get("./Views/components/header.html", function(html_data)
         {
             // inject Header content into the page
             $("header").html(html_data);
-
+            
             AddNavigationEvents();
             
             CheckLogin();
         });
-       
     }
-
     /**
      * 
      * 
@@ -124,9 +128,8 @@
         let callback = ActiveLinkCallBack(); // returns a reference to the correct function
         $.get(`./Views/content/${page_name}.html`, function(html_date)
         {
-            $("main").html(html_date); // data payload
-            CheckLogin();
-            callback();  
+            $("main").html(html_date);
+            callback(); // calling the correct function 
         });
     }
 
@@ -259,7 +262,6 @@
 
     function DisplayContactListPage(): void
     {
-        console.log("contact-list page");
         if(localStorage.length > 0)
         {
             let contactList = document.getElementById("contactList") as HTMLElement;
@@ -391,6 +393,7 @@
         // if user is logged in
         if(sessionStorage.getItem("user"))
         {
+
             // swap out the login link for logout
             $("#login").html(
                 `<a id="logout" class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>`
@@ -401,10 +404,14 @@
                 // perform logout
                 sessionStorage.clear();
 
-                // swap out the logout link for login link
+                 // swap out the logout link for login
                 $("#login").html(
                     `<a class="nav-link" data="login"><i class="fas fa-sign-in-alt"></i> Login</a>`
                 );
+                
+                
+                $("#task-list").remove();
+                AddNavigationEvents();
 
                 // redirect back to login
                 LoadLink("login");
@@ -453,7 +460,7 @@
 
                     // hide any error message
                     messageArea.removeAttr("class").hide();
-
+                    AddTaskListLink();
                     // redirect the user to the secure area of our site - contact-list.html
                     LoadLink("contact-list");
                 }
@@ -477,8 +484,6 @@
         });
     }
 
-    
-
     function DisplayRegisterPage(): void
     {
         console.log("Register Page");
@@ -488,8 +493,109 @@
 
     function Display404Page(): void
     {
-
+        
     }
+
+    /**
+     * This function adds a new Task to the TaskList
+     */
+     function AddNewTask() 
+     {
+       let messageArea = $("#messageArea");
+       messageArea.hide();
+       let taskInput = $("#taskTextInput");
+       let taskInputValue = taskInput.val() as string;
+ 
+       if (taskInput.val() != "" && taskInputValue.charAt(0) != " ") 
+       {
+         let newElement = `
+               <li class="list-group-item" id="task">
+               <span id="taskText">${taskInput.val()}</span>
+               <span class="float-end">
+                   <button class="btn btn-outline-primary btn-sm editButton"><i class="fas fa-edit"></i>
+                   <button class="btn btn-outline-danger btn-sm deleteButton"><i class="fas fa-trash-alt"></i></button>
+               </span>
+               <input type="text" class="form-control edit-task editTextInput">
+               </li>
+               `;
+         $("#taskList").append(newElement);
+         messageArea.removeAttr("class").hide();
+         taskInput.val("");
+       } 
+       else 
+       {
+         taskInput.trigger("focus").trigger("select");
+         messageArea.show().addClass("alert alert-danger").text("Please enter a valid Task.");
+       }
+     }
+ 
+     /**
+      * This function is the Callback function for the TaskList
+      *
+      */
+     function DisplayTaskList()
+     {
+         let messageArea = $("#messageArea");
+         messageArea.hide();
+         let taskInput = $("#taskTextInput");
+ 
+         // add a new Task to the Task List
+         $("#newTaskButton").on("click", function()
+         {         
+             AddNewTask();
+         });
+ 
+         taskInput.on("keypress", function(event)
+         {
+           if(event.key == "Enter")
+           {
+             AddNewTask();
+           }
+          });
+ 
+         // Edit an Item in the Task List
+         $("ul").on("click", ".editButton", function()
+         {
+            let editText = $(this).parent().parent().children(".editTextInput");
+            let text = $(this).parent().parent().text();
+            let editTextValue = editText.val() as string;
+            editText.val(text).show().trigger("select");
+            editText.on("keypress", function(event)
+            {
+             if(event.key == "Enter")
+             {
+               if(editText.val() != "" && editTextValue.charAt(0) != " ")
+               {
+                 editText.hide();
+                 $(this).parent().children("#taskText").text(editTextValue);
+                 messageArea.removeAttr("class").hide();
+               }
+               else
+               {
+                 editText.trigger("focus").trigger("select");
+                 messageArea.show().addClass("alert alert-danger").text("Please enter a valid Task.");
+               }
+             }
+            });
+         });
+ 
+         // Delete a Task from the Task List
+         $("ul").on("click", ".deleteButton", function(){
+             if(confirm("Are you sure?"))
+             {
+                 $(this).closest("li").remove();
+             }    
+         });
+     }
+
+
+     function AddTaskListLink()
+     {
+        $(`<li class="nav-item" id="task-list">
+        <a class="nav-link" data="task-list"><i class="fa-solid fa-list-check"></i> Task-List</a>
+        </li>`).insertAfter("#login");
+        AddNavigationEvents();
+     }
 
     /**
      * This method returns the appropriate function callback relative to the Active Link
@@ -510,6 +616,7 @@
             case "login": return DisplayLoginPage;
             case "register": return DisplayRegisterPage;
             case "404": return Display404Page;
+            case "task-list": return DisplayTaskList;
             default:
                 console.error("ERROR: callback does not exist: " + router.ActiveLink);
                 return new Function();

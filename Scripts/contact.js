@@ -23,8 +23,8 @@ var core;
         set EmailAddress(emailAddress) {
             this.m_emailAddress = emailAddress;
         }
-        constructor(fullname = "", contactNumber = "", emailAddress = "") {
-            this.m_fullName = fullname;
+        constructor(fullName = "", contactNumber = "", emailAddress = "") {
+            this.m_fullName = fullName;
             this.m_contactNumber = contactNumber;
             this.m_emailAddress = emailAddress;
         }
@@ -32,8 +32,10 @@ var core;
             if (this.FullName !== "" && this.ContactNumber !== "" && this.EmailAddress !== "") {
                 return `${this.FullName},${this.ContactNumber},${this.EmailAddress}`;
             }
-            console.error("One or more properties of the contact object are missing or empty");
-            return null;
+            else {
+                console.error("One or more properties of the Contact are missing or empty");
+                return null;
+            }
         }
         deserialize(data) {
             let propertyArray = data.split(",");
@@ -42,7 +44,7 @@ var core;
             this.EmailAddress = propertyArray[2];
         }
         toString() {
-            return `Full Name: ${this.FullName}\n Contact Number: ${this.ContactNumber}\n Email Address: ${this.EmailAddress}`;
+            return `Full Name     : ${this.FullName}\nContact Number: ${this.ContactNumber}\nEmail Address : ${this.EmailAddress}`;
         }
     }
     core.Contact = Contact;
