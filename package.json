@@ -1,9 +1,9 @@
 {
-  "name": "webd6201-w2022-lab3",
+  "name": "Lab 3",
   "version": "1.0.0",
-  "description": "starter project for lab3",
+  "description": "Lab3",
   "main": "index.js",
-  "author": "Tom Tsiliopoulos",
+  "author": "Parth Patel",
   "license": "MIT",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
