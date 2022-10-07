@@ -1,7 +1,7 @@
 {
-  "name": "Lab-3",
+  "name": "ICE-3",
   "version": "1.0.0",
-  "description": "Lab 3",
+  "description": "ICE 3 for WEBD6201",
   "main": "index.js",
   "author": "Parth Patel",
   "license": "MIT",
@@ -10,8 +10,5 @@
     "@popperjs/core": "^2.11.2",
     "bootstrap": "^5.1.3",
     "jquery": "^3.6.0"
-  },
-  "devDependencies": {
-    "@types/jquery": "^3.5.14"
   }
 }

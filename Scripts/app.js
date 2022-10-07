@@ -1,368 +1,315 @@
-"use strict";
-(function () {
-    function AuthGuard() {
-        let protected_routes = [
-            "contact-list",
-            "task-list"
-        ];
-        if (protected_routes.indexOf(router.ActiveLink) > -1) {
-            if (!sessionStorage.getItem("user")) {
-                router.ActiveLink = "login";
-            }
-        }
+// IIFE -- Immediately Invoke Function Expression
+// AKA Anonymous Self-Executing Function
+(function()
+{
+    
+    // Adding the human resource link to navbar
+    function LinkHumanResource()
+    {
+
+        let NewLink = `<a class="nav-link" href="about.html"> <i class="fas fa-male"></i> Human Resource</a>`;
+        let DocumentBody = document.getElementsByTagName("li")[4];
+        let abotUsPara = document.createElement("abotUsPara");
+        abotUsPara.setAttribute("class", "center");
+        abotUsPara.innerHTML = NewLink;
+        DocumentBody.appendChild(abotUsPara);
+
     }
-    function LoadLink(link, data = "") {
-        router.ActiveLink = link;
-        AuthGuard();
-        router.LinkData = data;
-        history.pushState({}, "", router.ActiveLink);
-        document.title = router.ActiveLink.substring(0, 1).toUpperCase() + router.ActiveLink.substring(1);
-        $("ul>li>a").each(function () {
-            $(this).removeClass("active");
-        });
-        $(`li>a:contains(${document.title})`).addClass("active");
-        CheckLogin();
-        LoadContent();
+
+
+    function ChangeProductsToProjects()
+    {
+        let NewLink = `<a class="nav-link" href="products.html"> <i class="fas fa-project-diagram"></i>Projects</a>`;
+        let DocumentBody = document.getElementsByTagName("li")[1];
+        let abotUsPara = document.createElement("abotUsPara");
+        abotUsPara.setAttribute("class", "center");
+        abotUsPara.innerHTML = NewLink;
+        DocumentBody.appendChild(abotUsPara);
+        document.getElementsByTagName("a")[2].remove();
     }
-    function AddNavigationEvents() {
-        let NavLinks = $("ul>li>a");
-        NavLinks.off("click");
-        NavLinks.off("mouseover");
-        NavLinks.on("click", function () {
-            LoadLink($(this).attr("data"));
-        });
-        NavLinks.on("mouseover", function () {
-            $(this).css("cursor", "pointer");
-        });
+
+    function Background() 
+    {
+        document.body.style.backgroundImage = "url('.././image/HomeBackground.jpg')";
+        document.body.style.color = "white";
     }
-    function AddLinkEvents(link) {
-        let linkQuery = $(`a.link[data=${link}]`);
-        linkQuery.off("click");
-        linkQuery.off("mouseover");
-        linkQuery.off("mouseout");
-        linkQuery.css("text-decoration", "underline");
-        linkQuery.css("color", "blue");
-        linkQuery.on("click", function () {
-            LoadLink(`${link}`);
-        });
-        linkQuery.on("mouseover", function () {
-            $(this).css('cursor', 'pointer');
-            $(this).css('font-weight', 'bold');
-        });
-        linkQuery.on("mouseout", function () {
-            $(this).css('font-weight', 'normal');
-        });
-    }
-    function LoadHeader() {
-        $.get("./Views/components/header.html", function (html_data) {
-            $("header").html(html_data);
-            AddNavigationEvents();
-            CheckLogin();
-        });
-    }
-    function LoadContent() {
-        let page_name = router.ActiveLink;
-        let callback = ActiveLinkCallBack();
-        $.get(`./Views/content/${page_name}.html`, function (html_date) {
-            $("main").html(html_date);
-            callback();
-        });
-    }
-    function LoadFooter() {
-        $.get(`./Views/components/footer.html`, function (html_date) {
-            $("footer").html(html_date);
-        });
-    }
-    function DisplayHomePage() {
-        console.log("Home Page");
-        $("#AboutUsButton").on("click", () => {
-            LoadLink("about");
-        });
-        $("main").append(`<p id="MainParagraph" class="mt-3">This is the Main Paragraph</p>`);
-        $("main").append(`<article>
-        <p id="ArticleParagraph" class ="mt-3">This is the Article Paragraph</p>
-        </article>`);
-    }
-    function DisplayProductsPage() {
+     function navbar(){
+     
+        let DocumentBody = document.body;
+       
+        let detailParagraph = document.createElement("detailParagraph");
+        let abotUsPara = `<nav class="navbar fixed-bottom navbar-light bg-dark">
+        <div align="right">
+        ©️ CopyRight 2022 
+        </div>
+     </nav>`;
+  
+        // step-3 configure
+        detailParagraph.setAttribute("class", "container");
+        // step-4 performation
+  
+        detailParagraph.innerHTML = abotUsPara;
+        DocumentBody.appendChild(detailParagraph);
+     }
+     
+    function DisplayProductsPage()
+    {
         console.log("Products Page");
+   
+        //step-1 - get a reference to entry point.
+     let DocumentBody = document.body;
+     let detailParagraph = document.createElement("detailParagraph");
+     let detailParagraphParagraph = `<table id="tableInfo" width="90%">
+     <tr>
+        <th width="33.3%"><h2 style="margin-left: 100px;">(1)Tarneeb Card Game</h2></th>
+        <th width="33.3%"><h2 style="margin-left: 100px;">(2)The Tic Tac Toe Game</h2></th>
+        <th width="33.3%"><h2 style="margin-left: 100px;">(3)This Website</h2></th>
+     </tr>
+     <tr>
+        <td align="center"><h6 style="margin-left: 100px;">This is our on going project, In this project we are 
+        developing one card game called tarneeb, and we are using c# WPF project for it. </h3></td>
+        <td align="center"><h6 style="margin-left: 100px;">This was our first ever experience of game developing,
+        We built this small little game a year ago, and we used c# windows forms for it.</h3></td>
+        <td align="center"><h6 style="margin-left: 100px;">Yes, this website is also one of the best projects that we worked on
+        and as long as we are making it, it gets more and more intresting, we are trying our best to make it look good,
+        layout wise and functionally as well.</h3></td>
+     </tr>
+      </table>`;
+
+     // step-3 configure
+     detailParagraph.setAttribute("class", "container");
+     // step-4 performation
+     detailParagraph.innerHTML = detailParagraphParagraph;
+     DocumentBody.appendChild(detailParagraph);
+     
+
     }
-    function DisplayServicesPage() {
+    function DisplayServicesPage()
+    {
         console.log("Services Page");
+        let DocumentBody = document.body;
+     let detailParagraph = document.createElement("detailParagraph");
+     let detailParagraphParagraph = `<table id="tableInfo" width="90%">
+     <tr>
+        <th width="33.3%"><h2 style="margin-left: 100px;">(1)Software Developing</h2></th>
+        <th width="33.3%"><h2 style="margin-left: 100px;">(2)Web Designing</h2></th>
+        <th width="33.3%"><h2 style="margin-left: 100px;">(3)Mobile Computing</h2></th>
+     </tr>
+     <tr>
+        <td align="center"><h6 style="margin-left: 100px;">We do implies all the necessary 
+        skills like mathematical aptitude, programming languages and very obvious system devlopment 
+        skills which means it covers all the major portion starting from proposal to launching software 
+        and even maintaining it</h3></td>
+        <td align="center"><h6 style="margin-left: 100px;">It is one of the vital element in field 
+        of IT. We rate this as best skill we possess among all we know. We are now comfortable working 
+        with html, php, javascript, CSS and database too.</h3></td>
+        <td align="center"><h6 style="margin-left: 100px;">It is like cloud computing. 
+        We are best to establish the relation between servers, pcs, network and good at things like maintaining IP 
+        address of network or PC and can solve any problem related mobile 
+        computing (network issue or server issues).</h3></td>
+     </tr>
+      </table>`;
+
+     // step-3 configure
+     detailParagraph.setAttribute("class", "container");
+     // step-4 performation
+     detailParagraph.innerHTML = detailParagraphParagraph;
+     DocumentBody.appendChild(detailParagraph);
+      
+     
+
     }
-    function DisplayAboutPage() {
-        console.log("About Page");
+    function DisplayAboutUsPage()
+    {
+        console.log("About Us Page");
+        let DocumentBody = document.body;
+        let abotUsPara = document.createElement("abotUsPara");
+        let WelcomePara = `<table id="tableInfo" width="90%">
+        <tr>
+           <th width="33.3%"><h3 style="margin-left: 100px;">Our goal for this lab is to shows our best work and our skills of web designing and editing.
+           We Both contributed with our efforts providing majority of work as per requirements. This lab is result
+           of best teamwork as well as proper division of task among the team. 
+      
+   </h3></th>
+        </tr>
+         </table>`;
+        // step-3 configure
+        abotUsPara.setAttribute("class", "center");
+        abotUsPara.innerHTML = WelcomePara;
+        DocumentBody.appendChild(abotUsPara);
     }
-    function AddContact(fullName, contactNumber, emailAddress) {
-        let contact = new core.Contact(fullName, contactNumber, emailAddress);
-        if (contact.serialize()) {
-            let key = contact.FullName.substring(0, 1) + Date.now();
-            localStorage.setItem(key, contact.serialize());
-        }
-    }
-    function ValidateField(fieldID, regular_expression, error_message) {
-        let messageArea = $("#messageArea").hide();
-        $("#" + fieldID).on("blur", function () {
-            let text_value = $(this).val();
-            if (!regular_expression.test(text_value)) {
-                $(this).trigger("focus").trigger("select");
-                messageArea.addClass("alert alert-danger").text(error_message).show();
-            }
-            else {
-                messageArea.removeAttr("class").hide();
-            }
+
+    function DisplayHomePage()
+    {
+        console.log("Home Page.")
+        
+        let AboutUsButton = document.getElementById("AboutUsButton");
+
+        AboutUsButton.addEventListener("click", function()
+        {
+            //redirect to about page
+            location.href = "about.html";
         });
+
+        let DocumentBody = document.body;
+     let abotUsPara = document.createElement("abotUsPara");
+     let WelcomePara = `<table id="tableInfo" width="90%">
+     <tr>&nbsp
+     </tr>
+     <tr>
+        <th width="33.3%"><h3 style="margin-left: 100px;">You have reached the most amazing website, 
+        look around and you will find many interesting things. This is home page of the website, if you want to know more about us, 
+        click on that blue button. 
+</h3></th>
+     </tr>
+     <tr>
+     <th>
+     <img style="margin-left: 100px;" style="border-radius: 40px 40px 0 0;" src= "./image/welcome.jpg" width="550" height="350"style="float: center;">
+     </th>
+     </tr>
+      </table>`;
+     // step-3 configure
+     abotUsPara.setAttribute("class", "center");
+     abotUsPara.innerHTML = WelcomePara;
+     DocumentBody.appendChild(abotUsPara);
     }
-    function ContactFormValidation() {
-        ValidateField("fullName", /^([A-Z][a-z]{1,3}.?\s)?([A-Z][a-z]{1,})((\s|,|-)([A-Z][a-z]{1,}))*(\s|,|-)([A-Z][a-z]{1,})$/, "Please enter a valid Full Name. This must include at least a Capitalized First Name and a Capitalized Last Name.");
-        ValidateField("contactNumber", /^(\+\d{1,3}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/, "Please enter a valid Contact Number. Example: (416) 555-5555");
-        ValidateField("emailAddress", /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/, "Please enter a valid Email Address.");
-    }
-    function DisplayContactPage() {
-        console.log("Contact Page");
-        $("a[data='contact-list']").off("click");
-        $("a[data='contact-list']").on("click", function () {
-            LoadLink("contact-list");
-        });
-        ContactFormValidation();
+
+    function Redirect() {
+        let count = 3;
+        setInterval(function(){
+            count--;
+            if (count == 0)
+            {
+                window.location = "contact-list.html";
+            }
+        }, 1000);
+        
+      }
+
+    
+    function DisplayContactUsPage()
+    {
+        console.log("Contact Us Page");
+
         let sendButton = document.getElementById("sendButton");
-        let subscribeCheckbox = document.getElementById("subscribeCheckbox");
-        sendButton.addEventListener("click", function (event) {
-            if (subscribeCheckbox.checked) {
-                let fullName = document.forms[0].fullName.value;
-                let contactNumber = document.forms[0].contactNumber.value;
-                let emailAddress = document.forms[0].emailAddress.value;
-                let contact = new core.Contact(fullName, contactNumber, emailAddress);
-                if (contact.serialize()) {
+        let subscribeCheckBox = document.getElementById("subscribeCheckBox");
+
+        //localStorage.setItem("1", "Parth");
+        //console.log(localStorage.getItem("1"));
+        //localStorage.removeItem("1");
+        //console.log(localStorage.length);
+
+        sendButton.addEventListener("click", function()
+        {
+            
+            //event.preventDefault(); // for debugging
+
+            if(subscribeCheckBox.checked)
+            {
+                let contact = new Contact(fullName.value, contactNumber.value, emailAddress.value);
+                if(contact.serialize())
+                {
                     let key = contact.FullName.substring(0, 1) + Date.now();
+
                     localStorage.setItem(key, contact.serialize());
+                    Redirect();
                 }
             }
-        });
+            
+        })
     }
-    function DisplayContactListPage() {
-        if (localStorage.length > 0) {
+
+    function DisplayContactListPage()
+    {
+        console.log("Contact-List Page");
+        if(localStorage.length > 0) // check if local storage has something in it
+        {
             let contactList = document.getElementById("contactList");
+            contactList.setAttribute("style", "color: White; border: 0px;")
+
             let data = "";
+
             let keys = Object.keys(localStorage);
+
             let index = 1;
-            for (const key of keys) {
-                let contactData = localStorage.getItem(key);
-                let contact = new core.Contact();
+
+            // for every key in keys collection
+            for(const key of keys)
+            {
+                let contactData = localStorage.getItem(key); // retrieves contact data from local storage
+
+                let contact = new Contact(); // creat an empty contact object 
                 contact.deserialize(contactData);
+
                 data += `<tr>
                 <th scope="row" class="text-center">${index}</th>
                 <td>${contact.FullName}</td>
                 <td>${contact.ContactNumber}</td>
                 <td>${contact.EmailAddress}</td>
-                <td class="text-center"><button value="${key}" class="btn btn-primary btn-sm edit"><i class="fas fa-edit fa-sm"></i> Edit</button></td>
-                <td class="text-center"><button value="${key}" class="btn btn-danger btn-sm delete"><i class="fas fa-trash-alt fa-sm"></i> Delete</button></td>
-                </tr>`;
-                index++;
+                <td></td>
+                <td></td>
+                </tr>`
+
+                index ++;
             }
+
             contactList.innerHTML = data;
-            $("button.delete").on("click", function () {
-                if (confirm("Are you sure?")) {
-                    localStorage.removeItem($(this).val());
-                }
-                LoadLink("contact-list");
-            });
-            $("button.edit").on("click", function () {
-                LoadLink("edit", $(this).val());
-            });
-        }
-        $("#addButton").on("click", () => {
-            LoadLink("edit", "add");
-        });
-    }
-    function DisplayEditPage() {
-        console.log("Edit Page");
-        ContactFormValidation();
-        let page = router.LinkData;
-        switch (page) {
-            case "add":
-                {
-                    $("main>h1").text("Add Contact");
-                    $("#editButton").html(`<i class="fas fa-plus-circle fa-lg"></i> Add`);
-                    $("#editButton").on("click", (event) => {
-                        event.preventDefault();
-                        let fullName = document.forms[0].fullName.value;
-                        let contactNumber = document.forms[0].contactNumber.value;
-                        let emailAddress = document.forms[0].emailAddress.value;
-                        AddContact(fullName, contactNumber, emailAddress);
-                        LoadLink("contact-list");
-                    });
-                    $("#cancelButton").on("click", () => {
-                        LoadLink("contact-list");
-                    });
-                }
-                break;
-            default:
-                {
-                    let contact = new core.Contact();
-                    contact.deserialize(localStorage.getItem(page));
-                    $("#fullName").val(contact.FullName);
-                    $("#contactNumber").val(contact.ContactNumber);
-                    $("#emailAddress").val(contact.EmailAddress);
-                    $("#editButton").on("click", (event) => {
-                        event.preventDefault();
-                        contact.FullName = $("#fullName").val();
-                        contact.ContactNumber = $("#contactNumber").val();
-                        contact.EmailAddress = $("#emailAddress").val();
-                        localStorage.setItem(page, contact.serialize());
-                        LoadLink("contact-list");
-                    });
-                    $("#cancelButton").on("click", () => {
-                        LoadLink("contact-list");
-                    });
-                }
-                break;
         }
     }
-    function CheckLogin() {
-        if (sessionStorage.getItem("user")) {
-            $("#login").html(`<a id="logout" class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>`);
-            $("#logout").on("click", function () {
-                sessionStorage.clear();
-                $("#login").html(`<a class="nav-link" data="login"><i class="fas fa-sign-in-alt"></i> Login</a>`);
-                $("#task-list").remove();
-                AddNavigationEvents();
-                LoadLink("login");
-            });
-        }
-    }
-    function DisplayLoginPage() {
-        console.log("Login Page");
-        let messageArea = $("#messageArea");
-        messageArea.hide();
-        AddLinkEvents("register");
-        $("#loginButton").on("click", function () {
-            let success = false;
-            let newUser = new core.User();
-            $.get("./Data/users.json", function (data) {
-                for (const user of data.users) {
-                    let username = document.forms[0].username.value;
-                    let password = document.forms[0].password.value;
-                    if (username == user.Username && password == user.Password) {
-                        newUser.fromJSON(user);
-                        success = true;
-                        break;
-                    }
-                }
-                if (success) {
-                    sessionStorage.setItem("user", newUser.serialize());
-                    messageArea.removeAttr("class").hide();
-                    AddTaskListLink();
-                    LoadLink("contact-list");
-                }
-                else {
-                    $("#username").trigger("focus").trigger("select");
-                    messageArea.addClass("alert alert-danger").text("Error: Invalid Login Information").show();
-                }
-            });
-        });
-        $("#cancelButton").on("click", function () {
-            document.forms[0].reset();
-            LoadLink("home");
-        });
-    }
-    function DisplayRegisterPage() {
-        console.log("Register Page");
-        AddLinkEvents("login");
-    }
-    function Display404Page() {
-    }
-    function AddNewTask() {
-        let messageArea = $("#messageArea");
-        messageArea.hide();
-        let taskInput = $("#taskTextInput");
-        let taskInputValue = taskInput.val();
-        if (taskInput.val() != "" && taskInputValue.charAt(0) != " ") {
-            let newElement = `
-               <li class="list-group-item" id="task">
-               <span id="taskText">${taskInput.val()}</span>
-               <span class="float-end">
-                   <button class="btn btn-outline-primary btn-sm editButton"><i class="fas fa-edit"></i>
-                   <button class="btn btn-outline-danger btn-sm deleteButton"><i class="fas fa-trash-alt"></i></button>
-               </span>
-               <input type="text" class="form-control edit-task editTextInput">
-               </li>
-               `;
-            $("#taskList").append(newElement);
-            messageArea.removeAttr("class").hide();
-            taskInput.val("");
-        }
-        else {
-            taskInput.trigger("focus").trigger("select");
-            messageArea.show().addClass("alert alert-danger").text("Please enter a valid Task.");
-        }
-    }
-    function DisplayTaskList() {
-        let messageArea = $("#messageArea");
-        messageArea.hide();
-        let taskInput = $("#taskTextInput");
-        $("#newTaskButton").on("click", function () {
-            AddNewTask();
-        });
-        taskInput.on("keypress", function (event) {
-            if (event.key == "Enter") {
-                AddNewTask();
-            }
-        });
-        $("ul").on("click", ".editButton", function () {
-            let editText = $(this).parent().parent().children(".editTextInput");
-            let text = $(this).parent().parent().text();
-            let editTextValue = editText.val();
-            editText.val(text).show().trigger("select");
-            editText.on("keypress", function (event) {
-                if (event.key == "Enter") {
-                    if (editText.val() != "" && editTextValue.charAt(0) != " ") {
-                        editText.hide();
-                        $(this).parent().children("#taskText").text(editTextValue);
-                        messageArea.removeAttr("class").hide();
-                    }
-                    else {
-                        editText.trigger("focus").trigger("select");
-                        messageArea.show().addClass("alert alert-danger").text("Please enter a valid Task.");
-                    }
-                }
-            });
-        });
-        $("ul").on("click", ".deleteButton", function () {
-            if (confirm("Are you sure?")) {
-                $(this).closest("li").remove();
-            }
-        });
-    }
-    function AddTaskListLink() {
-        $(`<li class="nav-item" id="task-list">
-        <a class="nav-link" data="task-list"><i class="fa-solid fa-list-check"></i> Task-List</a>
-        </li>`).insertAfter("#login");
-        AddNavigationEvents();
-    }
-    function ActiveLinkCallBack() {
-        switch (router.ActiveLink) {
-            case "home": return DisplayHomePage;
-            case "about": return DisplayAboutPage;
-            case "products": return DisplayProductsPage;
-            case "services": return DisplayServicesPage;
-            case "contact": return DisplayContactPage;
-            case "contact-list": return DisplayContactListPage;
-            case "edit": return DisplayEditPage;
-            case "login": return DisplayLoginPage;
-            case "register": return DisplayRegisterPage;
-            case "404": return Display404Page;
-            case "task-list": return DisplayTaskList;
-            default:
-                console.error("ERROR: callback does not exist: " + router.ActiveLink);
-                return new Function();
-        }
-    }
-    function Start() {
+
+    function DisplayParthPage(){
+        console.log("Parth's page");
+        
+     }
+  
+      function DisplayYashPage(){
+         console.log("Yash's page");
+         
+      }
+
+  
+
+    // named function
+    function Start()
+    {
+        navbar();
+        Background();
+        LinkHumanResource();
+        ChangeProductsToProjects();
         console.log("App Started!");
-        LoadHeader();
-        LoadLink("home");
-        LoadFooter();
+
+        switch(document.title)
+        {
+            case "Home":
+                DisplayHomePage();
+            break;
+            case "Our Products":
+                DisplayProductsPage();
+                break;
+            case "Our Services":
+                DisplayServicesPage();
+                break;
+            case "About Us":
+                DisplayAboutUsPage();
+                break;
+            case "Contact Us":
+                DisplayContactUsPage();
+                break;
+            case "Contact-List":
+                DisplayContactListPage();
+                break;
+            case "Parth":
+                DisplayParthPage();
+                break;
+            case "Yash":
+                DisplayYashPage();
+                break;
+    
+        }
+
+        let AboutUsButton = document.getElementById("AboutUsButton");
+        console.log(AboutUsButton);
     }
     window.addEventListener("load", Start);
+    
 })();
-//# sourceMappingURL=app.js.map
