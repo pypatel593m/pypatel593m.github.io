@@ -9,7 +9,18 @@
         document.body.style.color = "white";
     }
      
-    
+    function LoadHeader() {
+        $.get("./Views/components/header.html", function (html_data) {
+            $("header").html(html_data);
+            AddNavigationEvents();
+            CheckLogin();
+        });
+    }
+    function LoadFooter() {
+        $.get(`./Views/components/footer.html`, function (html_date) {
+            $("footer").html(html_date);
+        });
+    }
     function DisplayAboutUsPage()
     {
         console.log("About Us Page");
@@ -38,10 +49,10 @@
     // named function
     function Start()
     {
-        navbar();
+        
         Background();
-        LinkHumanResource();
-        ChangeProductsToProjects();
+        LoadHeader();
+        LoadFooter();
         console.log("App Started!");
 
         switch(document.title)
