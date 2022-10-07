@@ -1,7 +1,7 @@
 {
-  "name": "Lab 3",
+  "name": "Lab-2",
   "version": "1.0.0",
-  "description": "Lab3",
+  "description": "Lab-2 for WEBD6201",
   "main": "index.js",
   "author": "Parth Patel",
   "license": "MIT",
@@ -12,6 +12,6 @@
     "jquery": "^3.6.0"
   },
   "devDependencies": {
-    "@types/jquery": "^3.5.14"
+    "@types/jquery": "^3.5.13"
   }
 }
