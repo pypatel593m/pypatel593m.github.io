@@ -59,6 +59,10 @@
         console.log("Parth's page");
         
     }
+    function DisplayLab2Page()
+    {
+        console.log("lab 2 page");
+    }
 
     // named function
     function Start()
@@ -77,6 +81,9 @@
                 break;
             case "About Me":
                 DisplayAboutMePage();
+                break;
+            case "Lab 2":
+                DisplayLab2Page();
                 break;
             case "Contact Me":
                 DisplayContactMePage();
